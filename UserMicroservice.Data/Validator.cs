@@ -31,7 +31,7 @@ namespace UserMicroservice.Data
 
         //Source: http://stackoverflow.com/a/21456918/3109126
         static Regex PasswordRegex = new Regex(
-            @"^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&_~`'\(\)%\\-])[A-Za-z\d$@$!%*#?&_~`'\(\)%\\-]{8,}",
+            @"[A-Za-z\d$@$!%*#?&_~`'\(\)%\\-]{8,}",
             RegexOptions.Multiline);
 
         public static bool IsValidPassword(string password)
