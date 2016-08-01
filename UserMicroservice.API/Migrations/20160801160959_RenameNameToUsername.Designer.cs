@@ -8,9 +8,10 @@ using UserMicroservice.API.Database;
 namespace UserMicroservice.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160801160959_RenameNameToUsername")]
+    partial class RenameNameToUsername
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -55,7 +56,8 @@ namespace UserMicroservice.API.Migrations
 
                     b.Property<DateTime?>("AuthTokenExpiration");
 
-                    b.Property<string>("Email");
+                    b.Property<string>("Email")
+                        .IsRequired();
 
                     b.Property<string>("Password")
                         .IsRequired();
@@ -65,7 +67,8 @@ namespace UserMicroservice.API.Migrations
                     b.Property<string>("Salt")
                         .IsRequired();
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .IsRequired();
 
                     b.HasKey("Id");
 

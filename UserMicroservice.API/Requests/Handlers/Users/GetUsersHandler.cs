@@ -23,7 +23,7 @@ namespace UserMicroservice.API.Requests.Handlers.Users
             var q = _repo.AsQuerable();
             var usersSelection = q.Select(x => new UserViewModel() {
                 Id = x.Id,
-                Name = x.Name,
+                Name = x.Username,
                 Email = x.Email,
                 PermissionId = x.Permissions.Id
             });
