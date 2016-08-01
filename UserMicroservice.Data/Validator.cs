@@ -30,7 +30,7 @@ namespace UserMicroservice.Data
         }
 
         //Source: http://stackoverflow.com/a/21456918/3109126
-        static Regex PasswordRegex = new Regex(@"/^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$/");
+        static Regex PasswordRegex = new Regex(@"^(?=.*[A-Za-z])(?=.*\d)(?=.*[$@$!%*#?&])[A-Za-z\d$@$!%*#?&]{8,}$");
 
         public static bool IsValidPassword(string password)
         {

@@ -6,7 +6,7 @@ using UserMicroservice.Data;
 
 namespace UserMicroservice.UnitTests
 {
-    public class ValidatorTests
+    public class EmailValidatorTests
     {
         Dictionary<string, bool> Emails = new Dictionary<string, bool>{
             { @"a", false },
