@@ -13,9 +13,11 @@ namespace UserMicroservice.Data.Models
         public int Id { get; set; }
 
         [Required]
-        public string Name { get; set; }
+        [Key]
+        public string Username { get; set; }
 
         [Required]
+        [Key]
         public string Email { get; set; }
 
         [Required]
