@@ -15,14 +15,14 @@ namespace UserMicroservice.UnitTests
             "By3",
             "H3!!0o",
             "H1ya",
-            "s3cur3_p",
+            "s3cur3_",
             ""
         };
 
         string[] validPasswords = new string[]
         {
             "Secur3_passw0rd!",
-            //"I_AM_s3cure",
+            "I_AM_s3cure",
             @"y5_6@ea$",
             @"%2-?j?q\",
             @"DYf`_2B'X)hp9B8~"
@@ -56,7 +56,11 @@ namespace UserMicroservice.UnitTests
         {
             foreach (string a in validPasswords)
             {
-                Assert.True(Validator.IsValidPassword(a));
+                var isValid = Validator.IsValidPassword(a);
+                if (!isValid) {
+                    Console.WriteLine(a);
+                }
+                Assert.True(isValid);
             }
         }
     }
