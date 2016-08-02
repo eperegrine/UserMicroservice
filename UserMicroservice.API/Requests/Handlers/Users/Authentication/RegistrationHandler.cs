@@ -19,7 +19,6 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
 
         public SuccessDTO Execute(RegisterQuery query)
         {
-            
             throw new NotImplementedException();
         }
     }

@@ -19,6 +19,7 @@ using UserMicroservice.Data.Transfer.ViewModels.Permissions;
 using UserMicroservice.API.Requests.Queries.Users;
 using UserMicroservice.API.Requests.Handlers.Users;
 using UserMicroservice.Data.Transfer.ViewModels.User;
+using Newtonsoft.Json;
 
 namespace UserMicroservice.API
 {
@@ -53,7 +54,10 @@ namespace UserMicroservice.API
 
             services.AddTransient<IQueryHandler<GetUsersQuery, UserListViewModel>, GetUsersHandler>();
 
-            services.AddMvc();
+            services.AddMvc().AddJsonOptions(options =>
+            {
+                options.SerializerSettings.NullValueHandling = NullValueHandling.Ignore;
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
