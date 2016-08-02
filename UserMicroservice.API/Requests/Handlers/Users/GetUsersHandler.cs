@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserMicroservice.API.Database.Repositories;
 using UserMicroservice.API.Requests.Queries.Users;
+using UserMicroservice.Data.Models;
 using UserMicroservice.Data.Transfer.ViewModels.Permissions;
 using UserMicroservice.Data.Transfer.ViewModels.User;
 
@@ -21,18 +22,29 @@ namespace UserMicroservice.API.Requests.Handlers.Users
         public UserListViewModel Execute(GetUsersQuery query)
         {
             var q = _repo.AsQuerable();
-            var usersSelection = q.Select(x => new UserViewModel() {
-                Id = x.Id,
-                Name = x.Username,
-                Email = x.Email,
-                PermissionId = x.Permissions.Id
-            });
-            var users = usersSelection.ToList();
-            //return new UserListViewModel();
+            List<User> userModelList = q.ToList();//usersSelection.ToList();
+            List<UserViewModel> userViewModelList = new List<UserViewModel>();
+
+            foreach (User u in userModelList)
+            {
+                UserViewModel uvm = new UserViewModel();
+
+                uvm.Id = u.Id;
+                uvm.Name = u.Username;
+                uvm.Email = u.Email;
+
+                if (u.Permissions != null)
+                {
+                    uvm.PermissionId = u.Permissions.Id;
+                }
+
+                userViewModelList.Add(uvm);
+            }
+
             return new UserListViewModel()
             {
                 Success = true,
-                Users = users
+                Users = userViewModelList
             };
         }
     }
