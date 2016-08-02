@@ -4,6 +4,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using UserMicroservice.API.Database.Repositories;
 using UserMicroservice.API.Requests.Queries.Users.Authentication;
+using UserMicroservice.Data;
+using UserMicroservice.Data.Models;
 using UserMicroservice.Data.Transfer.ViewModels.User;
 
 namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
@@ -19,7 +21,58 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
 
         public AuthTokenDTO Execute(LoginQuery query)
         {
-            throw new NotImplementedException();
+            if (Validator.IsValidEmail(query.Email))
+            {
+                return AuthTokenDTO.GenerateError("Invalid Email");
+            }
+
+            if (Validator.IsValidPassword(query.Password))
+            {
+                return AuthTokenDTO.GenerateError("Invalid Password");
+            }
+
+            IQueryable<User> users = _repo.AsQuerable();
+            User u = users.First(x => x.Email == query.Email);
+
+            if (u == null)
+            {
+                return AuthTokenDTO.GenerateError("Wrong email/password");
+            }
+
+            var salt = u.Salt;
+
+            bool correctPassword = PasswordHashing.ComparePasswords(query.Password, salt, u.Password);
+
+            if (correctPassword)
+            {
+                string authToken = PasswordHashing.GenerateHash(
+                    password: u.Email + u.Username + u.Password,
+                    salt: u.Salt, 
+                    iterationCount: 100
+                );
+                DateTime expDate = DateTime.Now.AddDays(1);
+
+                var res = _repo.Update(u.Id, x => {
+                    x.AuthToken = authToken;
+                    x.AuthTokenExpiration = expDate;
+                    return x;
+                });
+
+                if (res.Success)
+                {
+                    return new AuthTokenDTO()
+                    {
+                        Success = true,
+                        AuthToken = authToken
+                    };
+                }
+
+                return AuthTokenDTO.GenerateError(res.ErrorMessage);
+            }
+            else
+            {
+                return AuthTokenDTO.GenerateError("Erong eamil/password");
+            }
         }
     }
 }
