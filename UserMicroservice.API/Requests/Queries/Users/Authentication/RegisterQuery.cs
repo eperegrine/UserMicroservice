@@ -7,13 +7,11 @@ using UserMicroservice.Data.Transfer;
 
 namespace UserMicroservice.API.Requests.Queries.Users.Authentication
 {
-    public class RegisterQuery : IQuery<SuccessDTO>
+    public class RegisterQuery : IQuery<AddDTO>
     {
-        [FromBody]
         public string Username { get; set; }
-        [FromBody]
         public string Email { get; set; }
-        [FromBody]
+
         public string Password { get; set; }
     }
 }

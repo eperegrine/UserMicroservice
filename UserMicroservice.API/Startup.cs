@@ -20,6 +20,9 @@ using UserMicroservice.API.Requests.Queries.Users;
 using UserMicroservice.API.Requests.Handlers.Users;
 using UserMicroservice.Data.Transfer.ViewModels.User;
 using Newtonsoft.Json;
+using UserMicroservice.API.Requests.Queries.Users.Authentication;
+using UserMicroservice.API.Requests.Handlers.Users.Authentication;
+using UserMicroservice.Data.Transfer;
 
 namespace UserMicroservice.API
 {
@@ -51,6 +54,9 @@ namespace UserMicroservice.API
             services.AddSingleton<PermissionRepository>();
 
             services.AddTransient<IQueryHandler<GetPermissionsQuery, PermissionListViewModel>, GetAllPermissionsHandler>();
+
+            services.AddTransient<IQueryHandler<LoginQuery, AuthTokenDTO>, LoginHandler>();
+            services.AddTransient<IQueryHandler<RegisterQuery, AddDTO>, RegistrationHandler>();
 
             services.AddTransient<IQueryHandler<GetUsersQuery, UserListViewModel>, GetUsersHandler>();
 

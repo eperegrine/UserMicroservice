@@ -24,7 +24,16 @@ namespace UserMicroservice.API.Database.Repositories
 
         public AddDTO Create(User newItem)
         {
-            throw new NotImplementedException();
+            using (var db = _fact.Create())
+            {
+                db.Users.Add(newItem);
+                db.SaveChanges();
+                return new AddDTO()
+                {
+                    Id = newItem.Id,
+                    Success = true
+                };
+            }
         }
 
         public SuccessDTO Delete(int id)

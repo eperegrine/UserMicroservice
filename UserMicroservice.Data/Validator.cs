@@ -36,7 +36,7 @@ namespace UserMicroservice.Data
 
         public static bool IsValidPassword(string password)
         {
-            
+            if (string.IsNullOrWhiteSpace(password)) return false;
             return PasswordRegex.IsMatch(password);
         }
     }

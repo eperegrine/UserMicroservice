@@ -17,6 +17,11 @@ namespace UserMicroservice.API.Database.Repositories
             _factory = factory;
         }
 
+        public Permission GetInititialPermission()
+        {
+            return AsQuerable().First();
+        }
+
         public IQueryable<Permission> AsQuerable()
         {
             return _factory.Create().Permissions.AsQueryable();

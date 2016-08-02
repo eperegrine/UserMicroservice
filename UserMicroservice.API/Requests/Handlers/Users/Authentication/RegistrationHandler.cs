@@ -29,12 +29,12 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
                 return AddDTO.GenerateError("Invalid Username");
             }
 
-            if (Validator.IsValidEmail(query.Email))
+            if (!Validator.IsValidEmail(query.Email))
             {
                 return AddDTO.GenerateError("Invalid Email");
             }
 
-            if (Validator.IsValidPassword(query.Password))
+            if (!Validator.IsValidPassword(query.Password))
             {
                 return AddDTO.GenerateError("Invalid Password");
             }
