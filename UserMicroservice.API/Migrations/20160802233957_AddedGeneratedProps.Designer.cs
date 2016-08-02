@@ -8,9 +8,10 @@ using UserMicroservice.API.Database;
 namespace UserMicroservice.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160802233957_AddedGeneratedProps")]
+    partial class AddedGeneratedProps
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -60,7 +61,7 @@ namespace UserMicroservice.API.Migrations
                     b.Property<string>("Password")
                         .IsRequired();
 
-                    b.Property<int>("PermissionId");
+                    b.Property<int?>("PermissionsId");
 
                     b.Property<string>("Salt")
                         .IsRequired();
@@ -69,7 +70,7 @@ namespace UserMicroservice.API.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("PermissionId");
+                    b.HasIndex("PermissionsId");
 
                     b.ToTable("Users");
                 });
@@ -78,8 +79,7 @@ namespace UserMicroservice.API.Migrations
                 {
                     b.HasOne("UserMicroservice.Data.Models.Permission", "Permissions")
                         .WithMany()
-                        .HasForeignKey("PermissionId")
-                        .OnDelete(DeleteBehavior.Cascade);
+                        .HasForeignKey("PermissionsId");
                 });
         }
     }
