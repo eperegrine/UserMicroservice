@@ -8,9 +8,10 @@ using UserMicroservice.API.Database;
 namespace UserMicroservice.API.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20160803000550_AddedAlternateDb")]
+    partial class AddedAlternateDb
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
             modelBuilder
                 .HasAnnotation("ProductVersion", "1.0.0-rtm-21431")
@@ -66,11 +67,12 @@ namespace UserMicroservice.API.Migrations
                     b.Property<string>("Salt")
                         .IsRequired();
 
-                    b.Property<string>("Username");
+                    b.Property<string>("Username")
+                        .IsRequired();
 
                     b.HasKey("Id");
 
-                    b.HasAlternateKey("Email");
+                    b.HasAlternateKey("Email", "Username");
 
                     b.HasIndex("PermissionId");
 

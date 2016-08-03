@@ -54,7 +54,7 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
             {
                 Email = query.Email,
                 Username = query.Username,
-                Permissions = permission,
+                PermissionId = permission.Id,
                 Salt = salt,
                 Password = hashedPassword
             };

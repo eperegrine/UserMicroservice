@@ -21,20 +21,25 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
 
         public AuthTokenDTO Execute(LoginQuery query)
         {
-            if (Validator.IsValidEmail(query.Email))
+            if (!Validator.IsValidEmail(query.Email))
             {
                 return AuthTokenDTO.GenerateError("Invalid Email");
             }
 
-            if (Validator.IsValidPassword(query.Password))
+            if (!Validator.IsValidPassword(query.Password))
             {
                 return AuthTokenDTO.GenerateError("Invalid Password");
             }
 
             IQueryable<User> users = _repo.AsQuerable();
-            User u = users.First(x => x.Email == query.Email);
 
-            if (u == null)
+            User u;
+
+            try
+            {
+                u = users.First(x => x.Email == query.Email);
+            }
+            catch (Exception e)
             {
                 return AuthTokenDTO.GenerateError("Wrong email/password");
             }
@@ -45,12 +50,12 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
 
             if (correctPassword)
             {
+                DateTime expDate = DateTime.Now.AddDays(1);
                 string authToken = PasswordHashing.GenerateHash(
-                    password: u.Email + u.Username + u.Password,
+                    password: u.Password + expDate,
                     salt: u.Salt, 
                     iterationCount: 100
                 );
-                DateTime expDate = DateTime.Now.AddDays(1);
 
                 var res = _repo.Update(u.Id, x => {
                     x.AuthToken = authToken;
@@ -71,7 +76,7 @@ namespace UserMicroservice.API.Requests.Handlers.Users.Authentication
             }
             else
             {
-                return AuthTokenDTO.GenerateError("Erong eamil/password");
+                return AuthTokenDTO.GenerateError("Erong email/password");
             }
         }
     }

@@ -43,12 +43,22 @@ namespace UserMicroservice.API.Database.Repositories
 
         public User RetrieveById(int id)
         {
-            throw new NotImplementedException();
+            using (var db = _fact.Create())
+            {
+                return db.Users.First(x => x.Id == id);
+            }
         }
 
         public SuccessDTO Update(int id, Func<User, User> getNew)
         {
-            throw new NotImplementedException();
+            using (var db = _fact.Create())
+            {
+                var u = db.Users.First(x => x.Id == id);
+                u = getNew(u);
+                db.SaveChanges();
+                return SuccessDTO.Successful();
+            }
+            
         }
     }
 }

@@ -26,8 +26,8 @@ namespace UserMicroservice.API.Controllers
             _registerHandler = registerHandler;
         }
 
-        // GET: api/values/login
-        [HttpGet("Login")]
+        // GET: api/auth/login
+        [HttpPost("Login")]
         public IActionResult Login([FromBody]LoginQuery query)
         {
             return Ok(_loginHandler.Execute(query));

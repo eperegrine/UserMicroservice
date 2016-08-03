@@ -19,7 +19,8 @@ namespace UserMicroservice.API.Database
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<User>();
+            modelBuilder.Entity<User>()
+                .HasAlternateKey(u => u.Email);
             modelBuilder.Entity<Permission>();
         }
     }
